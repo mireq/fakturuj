@@ -1,0 +1,7 @@
+#!/bin/bash
+dirname="`pwd`/`dirname ${BASH_SOURCE:-$0}`"
+dirname=`cd "${dirname}/..";pwd`
+export PYTHONPATH=$dirname
+export DJANGO_SETTINGS_MODULE=web.settings_local
+export WERKZEUG_DEBUG_PIN=off
+source "${dirname}/../venv/bin/activate"

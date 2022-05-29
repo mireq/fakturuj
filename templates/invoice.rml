@@ -1,0 +1,214 @@
+{% load custom_tags %}<!DOCTYPE document SYSTEM "rml.dtd">
+<document filename="invoice.pdf" title="Faktúra {{ invoice.number }}">
+
+	<docinit>
+		<registerTTFont faceName="LatinModernSans" fileName="{{ static_root }}/fonts/lmodern/lmsans10-regular.ttf" />
+		<registerTTFont faceName="LatinModernSans8" fileName="{{ static_root }}/fonts/lmodern/lmsans8-regular.ttf" />
+		<registerTTFont faceName="LatinModernSans-Bold" fileName="{{ static_root }}/fonts/lmodern/lmsans10-bold.ttf" />
+		<registerFontFamily name="LatinModernSans" bold="LatinModernSans-Bold" boldItalic="LatinModernSans-Bold" italic="LatinModernSans-Bold" />
+	</docinit>
+
+	<template title="Faktúra" pagesize="(21cm, 29.7cm)">
+		<pageTemplate id="main">
+			<frame id="frame" x1="3cm" y1="2.5cm" width="15cm" height="24.7cm"/>
+		</pageTemplate>
+	</template>
+
+	<stylesheet>
+		<paraStyle name="Normal" fontName="LatinModernSans" fontSize="12" leading="17" />
+		<paraStyle name="MainTitle" parent="Normal" />
+		<paraStyle name="MainTitleRight" parent="Normal" alignment="RIGHT" />
+		<paraStyle name="TableTitle" fontName="LatinModernSans" fontSize="8" leading="11" />
+		<paraStyle name="Address" fontName="LatinModernSans" fontSize="12" leading="13" />
+		<paraStyle name="AddressRight" fontName="LatinModernSans" fontSize="12" leading="13" alignment="RIGHT" />
+		<paraStyle name="Company" fontName="LatinModernSans8" fontSize="8" leading="12" />
+		<paraStyle name="LineItem" parent="Normal" fontSize="10" leading="14" />
+		<paraStyle name="LineCount" fontName="LatinModernSans8" fontSize="7" leading="12" />
+		<paraStyle name="LinePrice" parent="LineItem" alignment="RIGHT" />
+
+		<blockTableStyle id="invoice_title">
+			<lineStyle kind="LINEABOVE" thickness="0.5" colorName="black" start="1,0" stop="-1,0"/>
+			<lineStyle kind="LINEBEFORE" thickness="0.5" colorName="black" start="1,0" stop="1,0"/>
+			<lineStyle kind="LINEAFTER" thickness="0.5" colorName="black" start="-1,0" stop="-1,0"/>
+			<blockLeftPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockRightPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockTopPadding length="10" start="0,0" stop="-1,-1"/>
+			<blockBottomPadding length="10" start="0,0" stop="-1,-1"/>
+		</blockTableStyle>
+
+		<blockTableStyle id="inline">
+			<blockLeftPadding length="0" start="0,0" stop="-1,-1"/>
+			<blockRightPadding length="0" start="0,0" stop="-1,-1"/>
+			<blockTopPadding length="0" start="0,0" stop="-1,-1"/>
+			<blockBottomPadding length="0" start="0,0" stop="-1,-1"/>
+		</blockTableStyle>
+
+
+		<blockTableStyle id="address">
+			<blockValign value="TOP" start="0,0" stop="-1,-1"/>
+			<lineStyle kind="LINEABOVE" thickness="0.5" colorName="black" start="0,0" stop="-1,0"/>
+			<lineStyle kind="LINEBEFORE" thickness="0.5" colorName="black" start="0,0" stop="0,-1"/>
+			<lineStyle kind="LINEAFTER" thickness="0.5" colorName="black" start="-1,0" stop="-1,-1"/>
+			<lineStyle kind="LINEBELOW" thickness="0.5" colorName="black" start="0,2" stop="-1,2"/>
+			<blockLeftPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockRightPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockTopPadding length="14.5" start="0,0" stop="-1,0"/>
+			<blockBottomPadding length="14" start="0,1" stop="-1,1"/>
+			<blockTopPadding length="14.5" start="0,3" stop="-1,3"/>
+			<blockBottomPadding length="14" start="0,4" stop="-1,4"/>
+			<blockBottomPadding length="12" start="0,2" stop="-1,2"/>
+		</blockTableStyle>
+
+		<blockTableStyle id="lines">
+			<blockLeftPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockRightPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockSpan start="0,0" stop="-1,0"/>
+			<blockTopPadding length="14.5" start="0,0" stop="-1,0"/>
+			<blockBottomPadding length="12" start="0,-2" stop="-1,-2"/>
+			<blockTopPadding length="14.5" start="0,-1" stop="-1,-1"/>
+			<blockBottomPadding length="12" start="0,-1" stop="-1,-1"/>
+			<blockAlignment value="RIGHT" start="-1,0" stop="-1,-1"/>
+			<blockFont name="LatinModernSans-Bold" size="12" leading="18" start="0,-1" stop="-1,-1" />
+			<lineStyle kind="LINEABOVE" thickness="0.5" colorName="black" start="0,0" stop="-1,0"/>
+			<lineStyle kind="LINEBEFORE" thickness="0.5" colorName="black" start="0,0" stop="0,-1"/>
+			<lineStyle kind="LINEAFTER" thickness="0.5" colorName="black" start="-1,0" stop="-1,-1"/>
+			<lineStyle kind="LINEABOVE" thickness="0.5" colorName="black" start="0,-1" stop="-1,-1"/>
+			<lineStyle kind="LINEBELOW" thickness="0.5" colorName="black" start="0,-1" stop="-1,-1"/>
+		</blockTableStyle>
+
+		<blockTableStyle id="sign">
+			<blockLeftPadding length="0" start="0,0" stop="0,-1"/>
+			<blockLeftPadding length="12" start="1,0" stop="-1,-1"/>
+			<blockRightPadding length="0" start="0,0" stop="-1,-1"/>
+			<blockTopPadding length="20" start="0,0" stop="-1,0"/>
+			<blockAlignment value="RIGHT" start="1,0" stop="1,0"/>
+		</blockTableStyle>
+	</stylesheet>
+
+	<story>
+		<blockTable colWidths="52%,18%,30%" style="invoice_title">
+			<tr>
+				<td><para style="MainTitle"></para></td>
+				<td><para style="MainTitle">Faktúra:</para></td>
+				<td><para style="MainTitleRight">{{ invoice.number }}</para></td>
+			</tr>
+		</blockTable>
+		<blockTable colWidths="52%,48%" style="address">
+			<tr>
+				<td><para style="TableTitle"><b>Dodávateľ:</b></para></td>
+				<td><para style="TableTitle"><b>Odberateľ:</b></para></td>
+			</tr>
+			<tr>
+				<td>
+					<para style="Address">
+						<b>{{ invoice.issuer.name }}</b><br />
+						{{ invoice.issuer.address|linebreaksbr_xml }}
+					</para>
+				</td>
+				<td>
+					<para style="Address">
+						<b>{{ invoice.company.name }}</b><br />
+						{{ invoice.company.address|linebreaksbr_xml }}
+					</para>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<para style="Company">
+						{% for row in invoice.issuer.issuer_company_data %}
+							{{ row.0 }}: {{ row.1 }}<br />
+						{% endfor %}
+						Dodávateľ nie je platiteľom DPH
+					</para>
+				</td>
+				<td>
+					<para style="Company">
+						{% for row in invoice.company.company_data %}
+							{{ row.0 }}: {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+						{% endfor %}
+					</para>
+				</td>
+			</tr>
+			<tr>
+				<td><para style="TableTitle"><b>Platobné podmienky:</b></para></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<para style="Address">
+						Forma úhrady: prevodom<br />
+						Variabilný symbol: {{ invoice.number }}<br />
+						{% if invoice.issuer.iban %}
+							IBAN: {{ invoice.issuer.iban }}
+						{% elif invoice.issuer.bank_account %}
+							Číslo účtu: {{ invoice.issuer.bank_account }} / {{ invoice.issuer.bank_code }}
+						{% endif %}
+					</para>
+				</td>
+				<td>
+					<blockTable style="inline" colWidths="60%,40%">
+						<tr>
+							<td>
+								<para style="Address">
+									Dátum vystavenia:<br />
+									<b>Dátum splatnosti</b>:
+									{% if invoice.delivery %}<br />Dátum odovzdania:{% endif %}
+								</para>
+							</td>
+							<td>
+								<para style="AddressRight">
+									{{ invoice.date_created|date:"SHORT_DATE_FORMAT" }}<br />
+									{{ invoice.due|date:"SHORT_DATE_FORMAT" }}
+									{% if invoice.delivery %}<br />{{ invoice.delivery|date:"SHORT_DATE_FORMAT" }}{% endif %}
+								</para>
+							</td>
+						</tr>
+					</blockTable>
+				</td>
+			</tr>
+		</blockTable>
+		<blockTable colWidths="75%,10%,15%" style="lines">
+			<tr>
+				<td><para style="TableTitle"><b>Fakturujeme vám:</b></para></td>
+				<td></td>
+				<td></td>
+			</tr>
+			{% for item in invoice.item_set.all %}
+				<tr>
+					<td><para style="LineItem">{{ item }}</para></td>
+					<td><para style="LineCount">1 ks</para></td>
+					<td><para style="LinePrice">{{ item.normalized_price }} €</para></td>
+				</tr>
+			{% endfor %}
+			<tr>
+				<td>Celkom k úhrade:</td>
+				<td></td>
+				<td>{{ invoice.total }} €</td>
+			</tr>
+		</blockTable>
+		<blockTable colWidths="50%,50%" style="sign">
+			<tr>
+				<td>
+					<illustration width="4cm" height="4cm">
+						<lineMode width="0.5" />
+						<lines>
+							0cm 0cm 0cm 0.5cm
+							0cm 0cm 0.5cm 0cm
+							4cm 0cm 3.5cm 0cm
+							4cm 0cm 4cm 0.5cm
+							0cm 4cm 0.5cm 4cm
+							0cm 4cm 0cm 3.5cm
+							4cm 4cm 4cm 3.5cm
+							4cm 4cm 3.5cm 4cm
+						</lines>
+						<fill color="black"/>
+						{{ qr|resize_qr:"3.4cm,0.3,0.3" }}
+						<setFont name="LatinModernSans8" size="6" />
+						<drawCentredString x="2cm" y="0cm">PAY by square</drawCentredString>
+					</illustration>
+				</td>
+				<td>{% if stamp %}<illustration width="5.56cm" height="2cm"><image file="{{ db_root }}/stamp.jpg" x="0" y="0" width="5.56cm" height="2cm" /></illustration>{% endif %}</td>
+			</tr>
+		</blockTable>
+	</story>
+</document>
