@@ -34,7 +34,7 @@ def render_to_pdf(template, ctx, buff=None):
 
 def render_to_pdf_response(template, ctx):
 	response = HttpResponse(content_type='application/pdf')
-	pdf = render_to_pdf(template, ctx, response)
+	render_to_pdf(template, ctx, response)
 	return response
 
 
@@ -81,6 +81,7 @@ def get_or_create_pdf(invoice, buffer, force_generate=False, **kwargs):
 	}
 	ctx.update(kwargs)
 	render_to_pdf('invoice.rml', ctx, data)
+	invoice.get_pdf_path().parent.mkdir(parents=True, exist_ok=True)
 	with open(invoice.get_pdf_path(), 'wb') as fp:
 		data.seek(0)
 		fp.write(data.read())
