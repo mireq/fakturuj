@@ -141,3 +141,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ORDER_NUMBER_FORMAT = "%Y%m<2>"
 TEXT_DATABASE_LOCATION = '~/.invoice/'
+
+USE_THOUSAND_SEPARATOR = True

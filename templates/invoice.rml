@@ -62,8 +62,11 @@
 		<blockTableStyle id="lines">
 			<blockLeftPadding length="6" start="0,0" stop="-1,-1"/>
 			<blockRightPadding length="6" start="0,0" stop="-1,-1"/>
+			<blockTopPadding length="1" start="0,0" stop="-1,-1"/>
+			<blockBottomPadding length="1" start="0,0" stop="-1,-1"/>
 			<blockSpan start="0,0" stop="-1,0"/>
 			<blockTopPadding length="14.5" start="0,0" stop="-1,0"/>
+			<blockBottomPadding length="8" start="0,0" stop="-1,0"/>
 			<blockBottomPadding length="12" start="0,-2" stop="-1,-2"/>
 			<blockTopPadding length="14.5" start="0,-1" stop="-1,-1"/>
 			<blockBottomPadding length="12" start="0,-1" stop="-1,-1"/>
@@ -167,7 +170,7 @@
 				</td>
 			</tr>
 		</blockTable>
-		<blockTable colWidths="75%,10%,15%" style="lines">
+		<blockTable colWidths="80%,6%,14%" style="lines">
 			<tr>
 				<td><para style="TableTitle"><b>Fakturujeme vám:</b></para></td>
 				<td></td>
