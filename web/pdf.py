@@ -2,12 +2,12 @@
 import threading
 from io import BytesIO
 
+import pay_by_square
 from django.conf import settings
 from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 
 from .models import TEXT_DATABASE_LOCATION
-from .pay_by_square import invoice_to_square_code
 
 
 reportlab_lock = threading.Lock()
@@ -34,6 +34,17 @@ def render_to_pdf_response(template, ctx):
 	response = HttpResponse(content_type='application/pdf')
 	render_to_pdf(template, ctx, response)
 	return response
+
+
+def invoice_to_square_code(invoice):
+	issuer = invoice.issuer
+	return pay_by_square.generate(
+		amount=invoice.total,
+		iban=issuer.iban.replace(' ', ''),
+		swift=issuer.swift or '',
+		variable_symbol=invoice.number,
+		date=invoice.date_created,
+	)
 
 
 def get_or_create_pdf(invoice, buffer, force_generate=False, **kwargs):

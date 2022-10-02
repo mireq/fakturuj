@@ -22,6 +22,8 @@ packaging==21.3
     # via
     #   deprecation
     #   pikepdf
+pay-by-square==0.2.0
+    # via -r requirements.in
 pikepdf==6.1.0
     # via z3c-rml
 pillow==9.2.0
