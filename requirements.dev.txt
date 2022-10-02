@@ -10,9 +10,9 @@ asgiref==3.5.2
     # via
     #   -c requirements.txt
     #   django
-astroid==2.11.5
+astroid==2.12.10
     # via pylint
-asttokens==2.0.5
+asttokens==2.0.8
     # via stack-data
 backcall==0.2.0
     # via ipython
@@ -20,15 +20,15 @@ decorator==5.1.1
     # via ipython
 dill==0.3.5.1
     # via pylint
-django==4.0.4
+django==4.1.1
     # via
     #   -c requirements.txt
     #   django-extensions
-django-extensions==3.1.5
+django-extensions==3.2.1
     # via -r requirements.dev.in
-executing==0.8.3
+executing==1.1.0
     # via stack-data
-ipython==8.4.0
+ipython==8.5.0
     # via
     #   -r requirements.dev.in
     #   ptipython
@@ -40,7 +40,9 @@ jedi==0.18.1
     #   ptpython
 lazy-object-proxy==1.7.1
     # via astroid
-matplotlib-inline==0.1.3
+markupsafe==2.1.1
+    # via werkzeug
+matplotlib-inline==0.1.6
     # via ipython
 mccabe==0.7.0
     # via pylint
@@ -52,7 +54,7 @@ pickleshare==0.7.5
     # via ipython
 platformdirs==2.5.2
     # via pylint
-prompt-toolkit==3.0.29
+prompt-toolkit==3.0.31
     # via
     #   ipython
     #   ptpython
@@ -64,12 +66,12 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pygments==2.12.0
+pygments==2.13.0
     # via
     #   -c requirements.txt
     #   ipython
     #   ptpython
-pylint==2.13.9
+pylint==2.15.3
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -78,27 +80,28 @@ pylint-django==2.5.3
 pylint-plugin-utils==0.7
     # via pylint-django
 six==1.16.0
-    # via asttokens
-sqlparse==0.4.2
+    # via
+    #   -c requirements.txt
+    #   asttokens
+sqlparse==0.4.3
     # via
     #   -c requirements.txt
     #   django
-stack-data==0.2.0
+stack-data==0.5.1
     # via ipython
 tomli==2.0.1
     # via pylint
-traitlets==5.2.1.post0
+tomlkit==0.11.5
+    # via pylint
+traitlets==5.4.0
     # via
     #   ipython
     #   matplotlib-inline
-watchdog==2.1.8
+watchdog==2.1.9
     # via -r requirements.dev.in
 wcwidth==0.2.5
     # via prompt-toolkit
-werkzeug==2.1.2
+werkzeug==2.2.2
     # via -r requirements.dev.in
 wrapt==1.14.1
     # via astroid
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
