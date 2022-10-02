@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 import threading
 from io import BytesIO
-from .models import TEXT_DATABASE_LOCATION
 
-import qrcode
 from django.conf import settings
 from django.http.response import HttpResponse
 from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
 
+from .models import TEXT_DATABASE_LOCATION
 from .pay_by_square import invoice_to_square_code
 
 
@@ -38,31 +36,6 @@ def render_to_pdf_response(template, ctx):
 	return response
 
 
-class EpsImage(qrcode.image.base.BaseImage):
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self._rectangles = []
-
-	def drawrect(self, row, col):
-		self._rectangles.append((row, col))
-
-	def save(self, stream, kind=None):
-		self.check_kind(kind=kind)
-		stream.write((f'<!--{self.width}-->').encode('utf-8'))
-		for row, col in self._rectangles:
-			row = self.width - row - 1 # invert Y axis
-			stream.write(f'<rect x="{col}cm" y="{row}cm" width="1.02cm" height="1.02cm" fill="true" stroke="false" />'.encode('utf-8'))
-
-
-def generate_qr(invoice):
-	code = invoice_to_square_code(invoice)
-	img = qrcode.make(code, version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, image_factory=EpsImage)
-	buf = BytesIO()
-	img.save(buf)
-	buf.seek(0)
-	return buf.read().decode('utf-8')
-
-
 def get_or_create_pdf(invoice, buffer, force_generate=False, **kwargs):
 	if not force_generate:
 		try:
@@ -77,7 +50,7 @@ def get_or_create_pdf(invoice, buffer, force_generate=False, **kwargs):
 		'invoice': invoice,
 		'db_root': TEXT_DATABASE_LOCATION,
 		'static_root': settings.BASE_DIR / 'static',
-		'qr': mark_safe(generate_qr(invoice)),
+		'bysquare': invoice_to_square_code(invoice),
 	}
 	ctx.update(kwargs)
 	render_to_pdf('invoice.rml', ctx, data)

@@ -204,8 +204,7 @@
 							4cm 4cm 4cm 3.5cm
 							4cm 4cm 3.5cm 4cm
 						</lines>
-						<fill color="black"/>
-						{{ qr|resize_qr:"3.4cm,0.3,0.3" }}
+						<plugInGraphic module="reportlab_qr_code" function="qr">size=4cm,padding=0.3cm;text;{{ bysquare }}</plugInGraphic>
 						<setFont name="LatinModernSans8" size="6" />
 						<drawCentredString x="2cm" y="0cm">PAY by square</drawCentredString>
 					</illustration>
