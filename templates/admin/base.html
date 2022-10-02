@@ -1,0 +1,17 @@
+{% extends 'admin/base.html' %}
+
+{% block extrastyle %}{{ block.super }}
+<style>
+.inline - group.tabular tr.has_original td {
+	padding - top: 8 px;
+}
+
+.original {
+	display: none;
+}
+
+body .inline-group .tabular tr.has_original td {
+	padding-top: 8px;
+}
+</style>
+{% endblock %}
