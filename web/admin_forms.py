@@ -37,15 +37,15 @@ class CompanyForm(forms.ModelForm):
 class InvoiceForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.fields['due'].required = False
-		self.change_company_queryset(self.fields['issuer'])
-		self.change_company_queryset(self.fields['company'])
+		self.fields['due'].required = False # Automatically add 2 weeks if is empty
+		self.limit_company_queryset(self.fields['issuer'])
+		self.limit_company_queryset(self.fields['company'])
 		last_invoice = Invoice.objects.order_by('-pk').first()
 		if last_invoice:
 			self.initial.setdefault('issuer', last_invoice.issuer)
 			self.initial.setdefault('company', last_invoice.company)
 
-	def change_company_queryset(self, field):
+	def limit_company_queryset(self, field):
 		last_versions = (Company.objects
 			.filter(is_archived=False)
 			.values('pk')
