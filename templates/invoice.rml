@@ -192,21 +192,21 @@
 		<blockTable colWidths="50%,50%" style="sign">
 			<tr>
 				<td>
-					<illustration width="4cm" height="4cm">
+					<illustration width="3cm" height="3cm">
 						<lineMode width="0.5" />
 						<lines>
 							0cm 0cm 0cm 0.5cm
 							0cm 0cm 0.5cm 0cm
-							4cm 0cm 3.5cm 0cm
-							4cm 0cm 4cm 0.5cm
-							0cm 4cm 0.5cm 4cm
-							0cm 4cm 0cm 3.5cm
-							4cm 4cm 4cm 3.5cm
-							4cm 4cm 3.5cm 4cm
+							3cm 0cm 2.5cm 0cm
+							3cm 0cm 3cm 0.5cm
+							0cm 3cm 0.5cm 3cm
+							0cm 3cm 0cm 2.5cm
+							3cm 3cm 3cm 2.5cm
+							3cm 3cm 2.5cm 3cm
 						</lines>
-						<plugInGraphic module="reportlab_qr_code" function="qr">size=4cm,padding=0.3cm;text;{{ bysquare }}</plugInGraphic>
+						<plugInGraphic module="reportlab_qr_code" function="qr">size=3cm,padding=0.2cm,error_correction=L;text;{{ bysquare }}</plugInGraphic>
 						<setFont name="LatinModernSans8" size="6" />
-						<drawCentredString x="2cm" y="0cm">PAY by square</drawCentredString>
+						<drawCentredString x="1.5cm" y="-0.1cm">PAY by square</drawCentredString>
 					</illustration>
 				</td>
 				<td>{% if stamp %}<illustration width="5.56cm" height="2cm"><image file="{{ db_root }}/stamp.jpg" x="0" y="0" width="5.56cm" height="2cm" /></illustration>{% endif %}</td>
