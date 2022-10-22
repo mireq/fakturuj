@@ -7,6 +7,7 @@ cd $DIRNAME
 export PYTHONPATH=$DIRNAME
 
 SKIP_COMPILE=
+SKIP_INSTALL=
 USE_HASHES=
 
 while [[ $# -gt 0 ]]
@@ -15,7 +16,19 @@ key="$1"
 case $key in
 	--skip-compile)
 	SKIP_COMPILE=YES
-	shift # past argument
+	shift
+	;;
+	--skip-install)
+	SKIP_INSTALL=YES
+	shift
+	;;
+	--)
+	shift
+	COMPILE_ARGS=$@
+	while [[ $# -gt 0 ]]
+	do
+		shift
+	done
 	;;
 *)
 	echo "Wrong argument $key"
@@ -26,12 +39,20 @@ esac
 done
 
 
+
+declare -p COMPILE_ARGS &>/dev/null || HAS_NO_COMPILE_ARGS=1
+
+if [ -n "$HAS_NO_COMPILE_ARGS" ]; then
+	COMPILE_ARGS="--upgrade"
+fi
+
+
 VIRTUALENV_DIR=${VIRTUALENV_DIR:-~/.virtualenvs}
 PYTHON_INSTALL_DIR=${PYTHON_INSTALL_DIR:-/usr/bin}
 
 EXTRA_SYNC_REQUIREMENTS=""
 EXTRA_INSTALL_REQUIREMENTS=""
-EXTRA_COMPILE_OPTS="-v --no-emit-index-url"
+EXTRA_COMPILE_OPTS="-v --no-emit-index-url --annotation-style line"
 
 if [[ ! -z $USE_HASHES ]]
 then
@@ -64,7 +85,7 @@ then
 		virtualenv_dir="$VIRTUALENV_DIR/py$env_name"
 		[ ! -d $virtualenv_dir ] && $PYTHON_INSTALL_DIR/python$env_name -m venv $virtualenv_dir && $virtualenv_dir/bin/pip install --upgrade pip
 		$virtualenv_dir/bin/pip install --upgrade pip-tools
-		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS --upgrade requirements.in --output-file requirements/py$env_name-requirements.txt &
+		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS $COMPILE_ARGS requirements.in --output-file requirements/py$env_name-requirements.txt &
 	done
 	wait
 fi
@@ -77,7 +98,7 @@ then
 	if [[ -f "requirements.dev.in" ]]
 	then
 		ln -s requirements/py$current_python-requirements.txt requirements.txt
-		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS --upgrade requirements.dev.in
+		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS $COMPILE_ARGS requirements.dev.in
 	fi
 fi
 
@@ -95,13 +116,16 @@ else
 	ln -s requirements/py$PYTHON_DEFAULT_ENVIRONMENT-requirements.txt requirements.txt
 fi
 
-if [ -z $USE_HASHES ]
+if [ -z $SKIP_INSTALL ]
 then
-	pip-sync requirements/py$current_python-requirements.txt $EXTRA_SYNC_REQUIREMENTS
-else
-	pip install -r requirements/py$current_python-requirements.txt $EXTRA_INSTALL_REQUIREMENTS
-	if [[ -f "requirements.live.txt" ]]
+	if [ -z $USE_HASHES ]
 	then
-		pip install --no-deps -r requirements.live.txt
+		pip-sync requirements/py$current_python-requirements.txt $EXTRA_SYNC_REQUIREMENTS
+	else
+		pip install -r requirements/py$current_python-requirements.txt $EXTRA_INSTALL_REQUIREMENTS
+		if [[ -f "requirements.live.txt" ]]
+		then
+			pip install --no-deps -r requirements.live.txt
+		fi
 	fi
 fi
