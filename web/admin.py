@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
-from django.db.models import Max, Sum, Subquery, OuterRef, Value as V
-from django.db.models.functions import JSONObject, Coalesce
 from decimal import Decimal as D
+
+from django.contrib import admin
+from django.contrib.admin.filters import SimpleListFilter
+from django.db.models import Max, Sum, Subquery, OuterRef, Value as V
+from django.db.models.functions import Coalesce
 
 from . import models as invoicing_models, admin_forms
 from .signals import invoice_saved
@@ -54,10 +56,25 @@ class ItemInline(admin.TabularInline):
 	extra = 10
 
 
+class InvoiceDateListFilter(SimpleListFilter):
+	title = invoicing_models.Invoice._meta.get_field('date_created').verbose_name
+	parameter_name = 'date_created'
+
+	def lookups(self, request, model_admin):
+		years = model_admin.get_queryset(request).values_list('date_created__year', flat=True).order_by('-date_created__year').distinct()
+		return [(y, str(y)) for y in years]
+
+	def queryset(self, request, queryset): # pylint: disable=unused-argument
+		value = self.value()
+		if value is not None:
+			return queryset.filter(date_created__year=value)
+		return queryset
+
+
 class InvoiceAdmin(admin.ModelAdmin):
 	form = admin_forms.InvoiceForm
 	list_display = ['number', 'get_company_name', 'get_price', 'date_created', 'due']
-	list_filter = ['date_created']
+	list_filter = [InvoiceDateListFilter]
 	inlines = [ItemInline]
 
 	def get_queryset(self, request):
