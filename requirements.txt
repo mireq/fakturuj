@@ -1,1 +1,25 @@
-requirements/py3.9-requirements.txt
+asgiref==3.6.0            # via django
+backports-tempfile==1.0   # via z3c-rml
+backports-weakref==1.0.post1  # via backports-tempfile
+deprecation==2.1.0        # via pikepdf
+django==4.1.7             # via -r requirements.in
+lxml==4.9.2               # via pikepdf, z3c-rml
+packaging==23.0           # via pikepdf
+pay-by-square==0.2.0      # via -r requirements.in
+pikepdf==7.1.1            # via z3c-rml
+pillow==9.4.0             # via pikepdf, reportlab
+pygments==2.14.0          # via z3c-rml
+pypng==0.20220715.0       # via qrcode
+qrcode==7.4.2             # via reportlab-qr-code-generator
+reportlab==3.6.12         # via z3c-rml
+reportlab-qr-code-generator==1.6.0  # via -r requirements.in
+six==1.16.0               # via reportlab-qr-code-generator
+sqlparse==0.4.3           # via django
+typing-extensions==4.5.0  # via qrcode
+z3c-rml==4.2.1            # via -r requirements.in
+zope-event==4.6           # via zope-schema
+zope-interface==5.5.2     # via z3c-rml, zope-schema
+zope-schema==7.0.1        # via z3c-rml
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
