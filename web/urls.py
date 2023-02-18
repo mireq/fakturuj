@@ -8,8 +8,8 @@ from . import views
 
 
 urlpatterns = [
-	path('admin/', admin.site.urls),
 	path('<int:pk>/', views.invoice_pdf_view, name="invoice_pdf"),
+	path('', admin.site.urls),
 ]
 
 if settings.DEBUG:
