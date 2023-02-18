@@ -103,6 +103,14 @@ class InvoiceAdmin(admin.ModelAdmin):
 		super().save_related(request, form, formsets, *args, **kwargs)
 		invoice_saved.send(sender=invoicing_models.Invoice, instance=form.instance)
 
+	def changelist_view(self, request, extra_context=None):
+		extra_context = extra_context or {}
+		cl = self.get_changelist_instance(request)
+		queryset = cl.get_queryset(request)
+		total = queryset.aggregate(total=Sum('price'))['total'] or D(0)
+		extra_context['total'] = total
+		return super().changelist_view(request, extra_context)
+
 
 admin.site.register(invoicing_models.Company, CompanyAdmin)
 admin.site.register(invoicing_models.Invoice, InvoiceAdmin)
