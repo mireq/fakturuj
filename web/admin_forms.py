@@ -5,7 +5,7 @@ from django import forms
 from django.utils import timezone
 from django.db.models import Max, Q
 
-from .models import Company, CompanyVersion, Invoice
+from .models import Company, CompanyVersion, Invoice, Item
 
 
 COMPANY_FIELDS = ['name', 'address', 'ico', 'dic', 'ic_dph', 'bank_account', 'bank_code', 'swift', 'iban']
@@ -68,4 +68,16 @@ class InvoiceForm(forms.ModelForm):
 
 	class Meta:
 		model = Invoice
+		fields = '__all__'
+
+
+class ItemForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['unit'].widget.attrs['style'] = 'width: 4em'
+		self.fields['quantity'].widget.attrs['style'] = 'width: 3em'
+		self.fields['price'].widget.attrs['style'] = 'width: 7em'
+
+	class Meta:
+		model = Item
 		fields = '__all__'

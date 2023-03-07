@@ -52,6 +52,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 
 class ItemInline(admin.TabularInline):
+	form = admin_forms.ItemForm
 	model = invoicing_models.Item
 	extra = 10
 

@@ -19,11 +19,14 @@
 		<paraStyle name="MainTitle" parent="Normal" />
 		<paraStyle name="MainTitleRight" parent="Normal" alignment="RIGHT" />
 		<paraStyle name="TableTitle" fontName="LatinModernSans" fontSize="8" leading="11" />
+		<paraStyle name="TableTitleCenter" parent="TableTitle" alignment="CENTER" />
+		<paraStyle name="TableTitleRight" parent="TableTitle" alignment="RIGHT" />
 		<paraStyle name="Address" fontName="LatinModernSans" fontSize="12" leading="13" />
 		<paraStyle name="AddressRight" fontName="LatinModernSans" fontSize="12" leading="13" alignment="RIGHT" />
 		<paraStyle name="Company" fontName="LatinModernSans8" fontSize="8" leading="12" />
 		<paraStyle name="LineItem" parent="Normal" fontSize="10" leading="14" />
-		<paraStyle name="LineCount" fontName="LatinModernSans8" fontSize="7" leading="12" />
+		<paraStyle name="LineCount" fontName="LatinModernSans8" fontSize="7" leading="12" alignment="RIGHT" />
+		<paraStyle name="LineUnitPrice" fontName="LatinModernSans8" fontSize="7" leading="12" alignment="RIGHT" />
 		<paraStyle name="LinePrice" parent="LineItem" alignment="RIGHT" />
 
 		<blockTableStyle id="invoice_title">
@@ -64,7 +67,7 @@
 			<blockRightPadding length="6" start="0,0" stop="-1,-1"/>
 			<blockTopPadding length="1" start="0,0" stop="-1,-1"/>
 			<blockBottomPadding length="1" start="0,0" stop="-1,-1"/>
-			<blockSpan start="0,0" stop="-1,0"/>
+			<blockAlignment value="RIGHT" start="1,0" stop="-1,0"/>
 			<blockTopPadding length="14.5" start="0,0" stop="-1,0"/>
 			<blockBottomPadding length="8" start="0,0" stop="-1,0"/>
 			<blockBottomPadding length="12" start="0,-2" stop="-1,-2"/>
@@ -170,21 +173,33 @@
 				</td>
 			</tr>
 		</blockTable>
-		<blockTable colWidths="80%,6%,14%" style="lines">
+		<blockTable colWidths="{% if invoice.has_unit_quantity %}68%,12%,7%,13%{% else %}80%,7%,13%{% endif %}" style="lines">
 			<tr>
 				<td><para style="TableTitle"><b>Fakturujeme vám:</b></para></td>
-				<td></td>
-				<td></td>
+				{% if invoice.has_unit_quantity %}
+					<td><para style="TableTitleRight"><b>Jedn.</b></para></td>
+					<td><para style="TableTitleRight"><b>Mn.</b></para></td>
+					<td><para style="TableTitleRight"><b>Spolu</b></para></td>
+				{% else %}
+					<td></td>
+					<td></td>
+				{% endif%}
 			</tr>
 			{% for item in invoice.item_set.all %}
 				<tr>
 					<td><para style="LineItem">{{ item }}</para></td>
-					<td><para style="LineCount">1 ks</para></td>
+					{% if invoice.has_unit_quantity %}
+						<td><para style="LineUnitPrice">{{ item.normalized_unit_price }} €</para></td>
+					{% endif %}
+					<td><para style="LineCount">{{ item.quantity }} {{ item.unit|default:"ks" }}</para></td>
 					<td><para style="LinePrice">{{ item.normalized_price }} €</para></td>
 				</tr>
 			{% endfor %}
 			<tr>
 				<td>Celkom k úhrade:</td>
+				{% if invoice.has_unit_quantity %}
+					<td></td>
+				{% endif %}
 				<td></td>
 				<td>{{ invoice.total }} €</td>
 			</tr>

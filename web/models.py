@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from .utils import normalize_decimal
@@ -180,6 +181,13 @@ class Invoice(models.Model):
 	def total(self):
 		return normalize_decimal(sum((item.price for item in self.item_set.all()), D(0)))
 
+	@cached_property
+	def has_unit_quantity(self):
+		for quantity, unit in self.item_set.values_list('quantity', 'unit'):
+			if unit or quantity != 1:
+				return True
+		return False
+
 	def get_absolute_url(self):
 		return reverse('invoice_pdf', args=(self.pk,))
 
@@ -207,7 +215,7 @@ class Invoice(models.Model):
 	@staticmethod
 	def get_next_number():
 		pat = timezone.localdate().strftime(settings.ORDER_NUMBER_FORMAT)
-		suffix_len = int(re.search('\<(\d+)\>', pat).group(1))
+		#suffix_len = int(re.search('\<(\d+)\>', pat).group(1))
 		number_format = re.sub('\<(\d+)\>', r'%0\1d', pat)
 		pat = re.sub('\<(\d+)\>', r'([0-9]{\1})', pat)
 		pat = f'^{pat}$'
@@ -254,10 +262,30 @@ class Item(models.Model):
 		max_digits=20,
 		decimal_places=2
 	)
+	quantity = models.DecimalField(
+		verbose_name=_("Quantity"),
+		max_digits=20,
+		decimal_places=0,
+		default=1
+	)
+	unit = models.CharField(
+		verbose_name=_("Unit"),
+		max_length=20,
+		blank=True,
+		default=''
+	)
 
 	@property
 	def normalized_price(self):
 		return normalize_decimal(self.price)
+
+	@property
+	def unit_price(self):
+		return self.price / self.quantity
+
+	@property
+	def normalized_unit_price(self):
+		return normalize_decimal(self.unit_price.quantize(D('0.01')))
 
 	def __str__(self):
 		return self.item
