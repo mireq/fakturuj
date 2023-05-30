@@ -75,9 +75,9 @@ class ItemForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['unit'].widget.attrs['style'] = 'width: 4em'
-		self.fields['quantity'].widget.attrs['style'] = 'width: 3em'
-		self.fields['price'].widget.attrs['style'] = 'width: 7em'
+		self.fields['quantity'].widget.attrs['style'] = 'width: 5em'
+		self.fields['unit_price'].widget.attrs['style'] = 'width: 7em'
 
 	class Meta:
 		model = Item
-		fields = '__all__'
+		exclude = ['price']

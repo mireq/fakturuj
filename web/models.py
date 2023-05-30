@@ -262,10 +262,15 @@ class Item(models.Model):
 		max_digits=20,
 		decimal_places=2
 	)
+	unit_price = models.DecimalField(
+		verbose_name=_("Unit price"),
+		max_digits=20,
+		decimal_places=2
+	)
 	quantity = models.DecimalField(
 		verbose_name=_("Quantity"),
 		max_digits=20,
-		decimal_places=0,
+		decimal_places=5,
 		default=1
 	)
 	unit = models.CharField(
@@ -278,10 +283,6 @@ class Item(models.Model):
 	@property
 	def normalized_price(self):
 		return normalize_decimal(self.price)
-
-	@property
-	def unit_price(self):
-		return self.price / self.quantity
 
 	@property
 	def normalized_unit_price(self):
