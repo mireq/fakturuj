@@ -78,6 +78,13 @@ class ItemForm(forms.ModelForm):
 		self.fields['quantity'].widget.attrs['style'] = 'width: 5em'
 		self.fields['unit_price'].widget.attrs['style'] = 'width: 7em'
 
+	def save(self, commit=True):
+		obj = super().save(commit=False)
+		obj.price = self.cleaned_data['unit_price'] * self.cleaned_data['quantity']
+		if commit:
+			obj.save()
+		return obj
+
 	class Meta:
 		model = Item
 		exclude = ['price']
