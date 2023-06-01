@@ -288,6 +288,10 @@ class Item(models.Model):
 	def normalized_unit_price(self):
 		return normalize_decimal(self.unit_price.quantize(D('0.01')))
 
+	@property
+	def normalized_quantity(self):
+		return normalize_decimal(self.quantity)
+
 	def __str__(self):
 		return self.item
 

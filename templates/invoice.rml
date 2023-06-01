@@ -191,7 +191,7 @@
 					{% if invoice.has_unit_quantity %}
 						<td><para style="LineUnitPrice">{{ item.normalized_unit_price }} €</para></td>
 					{% endif %}
-					<td><para style="LineCount">{{ item.quantity }} {{ item.unit|default:"ks" }}</para></td>
+					<td><para style="LineCount">{{ item.normalized_quantity }} {{ item.unit|default:"ks" }}</para></td>
 					<td><para style="LinePrice">{{ item.normalized_price }} €</para></td>
 				</tr>
 			{% endfor %}
