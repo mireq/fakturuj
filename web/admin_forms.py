@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.db.models import Max, Q
 
 from .models import Company, CompanyVersion, Invoice, Item
+from .utils import normalize_decimal
 
 
 COMPANY_FIELDS = ['name', 'address', 'ico', 'dic', 'ic_dph', 'bank_account', 'bank_code', 'swift', 'iban']
@@ -77,6 +78,12 @@ class ItemForm(forms.ModelForm):
 		self.fields['unit'].widget.attrs['style'] = 'width: 4em'
 		self.fields['quantity'].widget.attrs['style'] = 'width: 5em'
 		self.fields['unit_price'].widget.attrs['style'] = 'width: 7em'
+		value = self.initial.get('unit_price')
+		if value is not None:
+			self.initial['unit_price'] = normalize_decimal(value)
+		value = self.initial.get('quantity')
+		if value is not None:
+			self.initial['quantity'] = normalize_decimal(value)
 
 	def save(self, commit=True):
 		obj = super().save(commit=False)
