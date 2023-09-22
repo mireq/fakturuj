@@ -1,24 +1,31 @@
-asgiref==3.6.0            # via django
+asgiref==3.7.2            # via django
 backports-tempfile==1.0   # via z3c-rml
 backports-weakref==1.0.post1  # via backports-tempfile
+cssselect2==0.7.0         # via svglib
 deprecation==2.1.0        # via pikepdf
-django==4.1.7             # via -r requirements.in
-lxml==4.9.2               # via pikepdf, z3c-rml
-packaging==23.0           # via pikepdf
+django==4.2.5             # via -r requirements.in
+freetype-py==2.4.0        # via rlpycairo
+lxml==4.9.3               # via pikepdf, svglib, z3c-rml
+packaging==23.1           # via deprecation, pikepdf
 pay-by-square==0.2.0      # via -r requirements.in
-pikepdf==7.1.1            # via z3c-rml
-pillow==9.4.0             # via pikepdf, reportlab
-pygments==2.14.0          # via z3c-rml
+pikepdf==8.4.1            # via z3c-rml
+pillow==10.0.1            # via pikepdf, reportlab
+pycairo==1.24.0           # via rlpycairo
+pygments==2.16.1          # via z3c-rml
 pypng==0.20220715.0       # via qrcode
 qrcode==7.4.2             # via reportlab-qr-code-generator
-reportlab==3.6.12         # via z3c-rml
-reportlab-qr-code-generator==1.6.0  # via -r requirements.in
+reportlab==4.0.5          # via svglib, z3c-rml
+reportlab-qr-code-generator==1.7.0  # via -r requirements.in
+rlpycairo==0.3.0          # via z3c-rml
 six==1.16.0               # via reportlab-qr-code-generator
-sqlparse==0.4.3           # via django
-typing-extensions==4.5.0  # via qrcode
-z3c-rml==4.2.1            # via -r requirements.in
-zope-event==4.6           # via zope-schema
-zope-interface==5.5.2     # via z3c-rml, zope-schema
+sqlparse==0.4.4           # via django
+svglib==1.5.1             # via z3c-rml
+tinycss2==1.2.1           # via cssselect2, svglib
+typing-extensions==4.8.0  # via asgiref, qrcode
+webencodings==0.5.1       # via cssselect2, tinycss2
+z3c-rml==4.4.0            # via -r requirements.in
+zope-event==5.0           # via zope-schema
+zope-interface==6.0       # via z3c-rml, zope-schema
 zope-schema==7.0.1        # via z3c-rml
 
 # The following packages are considered to be unsafe in a requirements file:
