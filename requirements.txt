@@ -3,14 +3,14 @@ backports-tempfile==1.0   # via z3c-rml
 backports-weakref==1.0.post1  # via backports-tempfile
 cssselect2==0.7.0         # via svglib
 deprecation==2.1.0        # via pikepdf
-django==4.2.6             # via -r requirements.in
+django==4.2.7             # via -r requirements.in
 freetype-py==2.4.0        # via rlpycairo
 lxml==4.9.3               # via pikepdf, svglib, z3c-rml
 packaging==23.2           # via deprecation, pikepdf
 pay-by-square==0.2.0      # via -r requirements.in
-pikepdf==8.5.1            # via z3c-rml
-pillow==10.0.1            # via pikepdf, reportlab
-pycairo==1.25.0           # via rlpycairo
+pikepdf==8.6.0            # via z3c-rml
+pillow==10.1.0            # via pikepdf, reportlab
+pycairo==1.25.1           # via rlpycairo
 pygments==2.16.1          # via z3c-rml
 pypng==0.20220715.0       # via qrcode
 qrcode==7.4.2             # via reportlab-qr-code-generator
