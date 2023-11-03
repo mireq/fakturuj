@@ -75,7 +75,7 @@ class InvoiceDateListFilter(SimpleListFilter):
 class InvoiceAdmin(admin.ModelAdmin):
 	form = admin_forms.InvoiceForm
 	list_display = ['number', 'get_company_name', 'get_price', 'date_created', 'due']
-	list_filter = [InvoiceDateListFilter]
+	list_filter = [InvoiceDateListFilter, 'company']
 	inlines = [ItemInline]
 
 	def get_queryset(self, request):
