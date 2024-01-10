@@ -176,6 +176,14 @@ class Invoice(models.Model):
 		on_delete=models.PROTECT,
 		related_name='invoices',
 	)
+	creditnote = models.ForeignKey(
+		'self',
+		verbose_name=_("Credit note"),
+		on_delete=models.PROTECT,
+		related_name='creditnotes',
+		blank=True,
+		null=True
+	)
 
 	@property
 	def total(self):
@@ -213,8 +221,10 @@ class Invoice(models.Model):
 		return super().save(*args, **kwargs)
 
 	@staticmethod
-	def get_next_number():
-		pat = timezone.localdate().strftime(settings.ORDER_NUMBER_FORMAT)
+	def get_next_number(invoice_date=None):
+		if invoice_date is None:
+			invoice_date = timezone.localdate()
+		pat = invoice_date.strftime(settings.ORDER_NUMBER_FORMAT)
 		#suffix_len = int(re.search('\<(\d+)\>', pat).group(1))
 		number_format = re.sub('\<(\d+)\>', r'%0\1d', pat)
 		pat = re.sub('\<(\d+)\>', r'([0-9]{\1})', pat)
@@ -232,12 +242,8 @@ class Invoice(models.Model):
 
 	def get_suffix_number(self):
 		pat = self.date_created.strftime(settings.ORDER_NUMBER_FORMAT)
-		pat = re.sub('\<(\d+)\>', r'([0-9]{\1})', pat)
-		re_match = re.match(pat, self.number)
-		if re_match is None:
-			return None
-		else:
-			return int(re_match.group(1))
+		suffix_len = int(re.match('.*\<(\d+)\>.*', pat).group(1))
+		return int(self.number[-suffix_len:])
 
 	def __str__(self):
 		return self.number

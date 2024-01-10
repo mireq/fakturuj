@@ -77,6 +77,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 	list_display = ['number', 'get_company_name', 'get_price', 'date_created', 'due']
 	list_filter = [InvoiceDateListFilter, 'company']
 	inlines = [ItemInline]
+	raw_id_fields = ['creditnote']
 
 	def get_queryset(self, request):
 		return (super().get_queryset(request)

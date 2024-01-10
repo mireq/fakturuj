@@ -39,6 +39,7 @@ class InvoiceForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['due'].required = False # Automatically add 2 weeks if is empty
+		self.fields['number'].required = False # Automatically fil invoice number
 		self.limit_company_queryset(self.fields['issuer'])
 		self.limit_company_queryset(self.fields['company'])
 		last_invoice = Invoice.objects.order_by('-pk').first()
@@ -63,6 +64,8 @@ class InvoiceForm(forms.ModelForm):
 		obj = super().save(commit=False)
 		if not obj.due:
 			obj.due = timezone.localdate() + timedelta(14)
+		if not obj.number:
+			obj.number = Invoice.get_next_number(obj.delivery or obj.date_created)
 		if commit:
 			obj.save()
 		return obj
