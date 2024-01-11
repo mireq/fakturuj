@@ -200,19 +200,19 @@ class Invoice(models.Model):
 		return reverse('invoice_pdf', args=(self.pk,))
 
 	def get_filename(self):
-		return self.date_created.strftime('%Y%m%d-%m') + ("%02d" % self.get_suffix_number()) + '-' + self.company.company.slug
+		return (self.delivery or self.date_created).strftime('%Y%m%d-%m') + ("%02d" % self.get_suffix_number()) + '-' + self.company.company.slug
 
 	def get_pdf_filename(self):
 		return f'{self.get_filename()}.pdf'
 
 	def get_text_db_path(self):
 		filename = self.get_filename()
-		year = self.date_created.strftime('%Y')
+		year = (self.delivery or self.date_created).strftime('%Y')
 		return TEXT_DATABASE_LOCATION / year / 'data' / 'income' / filename
 
 	def get_pdf_path(self):
 		filename = self.get_pdf_filename()
-		year = self.date_created.strftime('%Y')
+		year = (self.delivery or self.date_created).strftime('%Y')
 		return TEXT_DATABASE_LOCATION / year / 'output' / filename
 
 	def save(self, *args, **kwargs):
@@ -239,6 +239,15 @@ class Invoice(models.Model):
 		else:
 			last_invoice_number = int(re.match(pat, last_invoice_number).group(1))
 		return number_format % (last_invoice_number + 1)
+
+	def get_suffix_number(self):
+		pat = (self.delivery or self.date_created).strftime(settings.ORDER_NUMBER_FORMAT)
+		pat = re.sub('\<(\d+)\>', r'([0-9]{\1})', pat)
+		re_match = re.match(pat, self.number)
+		if re_match is None:
+			return None
+		else:
+			return int(re_match.group(1))
 
 	def get_suffix_number(self):
 		pat = self.date_created.strftime(settings.ORDER_NUMBER_FORMAT)
