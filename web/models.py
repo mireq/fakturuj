@@ -218,6 +218,8 @@ class Invoice(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.id and not self.date_created:
 			self.date_created = timezone.localdate()
+		if not self.number:
+			self.number = self.get_next_number(self.delivery or self.date_created)
 		return super().save(*args, **kwargs)
 
 	@staticmethod
