@@ -97,8 +97,8 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 	def get_changeform_initial_data(self, request):
 		initial = super().get_changeform_initial_data(request)
-		if not initial.get('number'):
-			initial['number'] = invoicing_models.Invoice.get_next_number()
+		#if not initial.get('number'):
+		#	initial['number'] = invoicing_models.Invoice.get_next_number()
 		return initial
 
 	def save_related(self, request, form, formsets, *args, **kwargs):

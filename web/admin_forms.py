@@ -64,8 +64,6 @@ class InvoiceForm(forms.ModelForm):
 		obj = super().save(commit=False)
 		if not obj.due:
 			obj.due = timezone.localdate() + timedelta(14)
-		if not obj.number:
-			obj.number = Invoice.get_next_number(obj.delivery or obj.date_created)
 		if commit:
 			obj.save()
 		return obj
