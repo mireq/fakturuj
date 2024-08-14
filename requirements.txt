@@ -4,19 +4,19 @@ backports-weakref==1.0.post1  # via backports-tempfile
 chardet==5.2.0            # via reportlab
 cssselect2==0.7.0         # via svglib
 deprecated==1.2.14        # via pikepdf
-django==4.2.14 ; python_version < "3.10"            # via -r requirements.in
+django==4.2.15 ; python_version < "3.10"            # via -r requirements.in
 freetype-py==2.4.0        # via rlpycairo
-lxml==5.2.2               # via pikepdf, svglib, z3c-rml
+lxml==5.3.0               # via pikepdf, svglib, z3c-rml
 packaging==24.1           # via pikepdf
 pay-by-square==0.2.0      # via -r requirements.in
-pikepdf==9.1.0            # via z3c-rml
+pikepdf==9.1.1            # via z3c-rml
 pillow==10.4.0            # via pikepdf, reportlab
 pycairo==1.26.1           # via rlpycairo
 pygments==2.18.0          # via z3c-rml
 pypng==0.20220715.0       # via qrcode
 qrcode==7.4.2             # via reportlab-qr-code-generator
 reportlab==4.2.2          # via svglib, z3c-rml
-reportlab-qr-code-generator==1.7.0  # via -r requirements.in
+reportlab-qr-code-generator==1.8.0  # via -r requirements.in
 rlpycairo==0.3.0          # via z3c-rml
 six==1.16.0               # via reportlab-qr-code-generator
 sqlparse==0.5.1           # via django
@@ -27,9 +27,9 @@ webencodings==0.5.1       # via cssselect2, tinycss2
 wrapt==1.16.0             # via deprecated
 z3c-rml==4.4.0            # via -r requirements.in
 zope-event==5.0           # via zope-schema
-zope-interface==6.4.post2  # via z3c-rml, zope-schema
+zope-interface==7.0.1     # via z3c-rml, zope-schema
 zope-schema==7.0.1        # via z3c-rml
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
-django==5.0.7 ; python_version >= "3.10"             # via -r requirements.in
+django==5.1 ; python_version >= "3.10"               # via -r requirements.in
