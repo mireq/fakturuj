@@ -9,27 +9,26 @@ freetype-py==2.5.1        # via rlpycairo
 lxml==5.3.0               # via pikepdf, svglib, z3c-rml
 packaging==24.1           # via pikepdf
 pay-by-square==0.2.0      # via -r requirements.in
-pikepdf==9.2.1            # via z3c-rml
-pillow==10.4.0            # via pikepdf, reportlab
+pikepdf==9.3.0            # via z3c-rml
+pillow==11.0.0            # via pikepdf, reportlab
 pycairo==1.27.0           # via rlpycairo
 pygments==2.18.0          # via z3c-rml
-pypng==0.20220715.0       # via qrcode
-qrcode==7.4.2             # via reportlab-qr-code-generator
-reportlab==4.2.2          # via svglib, z3c-rml
+qrcode==8.0               # via reportlab-qr-code-generator
+reportlab==4.2.5          # via svglib, z3c-rml
 reportlab-qr-code-generator==1.8.0  # via -r requirements.in
 rlpycairo==0.3.0          # via z3c-rml
 six==1.16.0               # via reportlab-qr-code-generator
 sqlparse==0.5.1           # via django
 svglib==1.5.1             # via z3c-rml
 tinycss2==1.3.0           # via cssselect2, svglib
-typing-extensions==4.12.2  # via asgiref, qrcode
+typing-extensions==4.12.2  # via asgiref
 webencodings==0.5.1       # via cssselect2, tinycss2
 wrapt==1.16.0             # via deprecated
 z3c-rml==4.4.0            # via -r requirements.in
 zope-event==5.0           # via zope-schema
-zope-interface==7.0.3     # via z3c-rml, zope-schema
+zope-interface==7.1.0     # via z3c-rml, zope-schema
 zope-schema==7.0.1        # via z3c-rml
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
-django==5.1.1 ; python_version >= "3.10"             # via -r requirements.in
+django==5.1.2 ; python_version >= "3.10"             # via -r requirements.in
