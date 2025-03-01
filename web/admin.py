@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import csv
 from decimal import Decimal as D
 
 from django.contrib import admin
 from django.contrib.admin.filters import SimpleListFilter
 from django.db.models import Max, Sum, Subquery, OuterRef, Value as V
 from django.db.models.functions import Coalesce
+from django.http.response import HttpResponse
 
 from . import models as invoicing_models, admin_forms
 from .signals import invoice_saved
@@ -72,12 +74,26 @@ class InvoiceDateListFilter(SimpleListFilter):
 		return queryset
 
 
+@admin.action(description="Exportovať vybrané faktúry do CSV")
+def export_invoices_to_csv(modeladmin, request, queryset):
+	total = D(0)
+	response = HttpResponse(content_type='text/csv')
+	writer = csv.writer(response)
+	writer.writerow(['Číslo', 'Cena'])
+	for invoice in queryset:
+		writer.writerow([invoice.number, str(invoice.price)])
+		total += invoice.price
+	writer.writerow(['Spolu', str(total)])
+	return response
+
+
 class InvoiceAdmin(admin.ModelAdmin):
 	form = admin_forms.InvoiceForm
 	list_display = ['number', 'get_company_name', 'get_price', 'date_created', 'due']
 	list_filter = [InvoiceDateListFilter, 'company']
 	inlines = [ItemInline]
 	raw_id_fields = ['creditnote']
+	actions = [export_invoices_to_csv]
 
 	def get_queryset(self, request):
 		return (super().get_queryset(request)
