@@ -4,7 +4,7 @@ from decimal import Decimal as D
 
 from django.contrib import admin
 from django.contrib.admin.filters import SimpleListFilter
-from django.db.models import Max, Sum, Subquery, OuterRef, Value as V
+from django.db.models import Max, Sum, Subquery, OuterRef, Value as V, F
 from django.db.models.functions import Coalesce
 from django.http.response import HttpResponse
 
@@ -61,16 +61,19 @@ class ItemInline(admin.TabularInline):
 
 class InvoiceDateListFilter(SimpleListFilter):
 	title = invoicing_models.Invoice._meta.get_field('date_created').verbose_name
-	parameter_name = 'date_created'
+	parameter_name = 'invoice_date'
 
 	def lookups(self, request, model_admin):
-		years = model_admin.get_queryset(request).values_list('date_created__year', flat=True).order_by('-date_created__year').distinct()
+		years = (model_admin.get_queryset(request)
+			.values_list('date_created__year', flat=True)
+			.order_by('-date_created__year')
+			.distinct())
 		return [(y, str(y)) for y in years]
 
 	def queryset(self, request, queryset): # pylint: disable=unused-argument
 		value = self.value()
 		if value is not None:
-			return queryset.filter(date_created__year=value)
+			return queryset.filter(invoice_date__year=value)
 		return queryset
 
 
@@ -98,6 +101,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 	def get_queryset(self, request):
 		return (super().get_queryset(request)
 			.annotate(price=Coalesce(Sum('item__price'), V(D(0))))
+			.annotate(invoice_date=Coalesce(F('delivery'), F('date_created')))
 			.select_related('company')
 			.order_by('-pk'))
 
