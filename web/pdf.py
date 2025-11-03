@@ -41,6 +41,7 @@ def invoice_to_square_code(invoice):
 	return pay_by_square.generate(
 		amount=invoice.total,
 		iban=issuer.iban.replace(' ', ''),
+		beneficiary_name=issuer.name,
 		swift=issuer.swift or '',
 		variable_symbol=invoice.number,
 		date=invoice.date_created,
