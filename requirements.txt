@@ -1,4 +1,4 @@
-asgiref==3.8.1            # via django
+asgiref==3.12.1           # via django
 backports-tempfile==1.0   # via z3c-rml
 backports-weakref==1.0.post1  # via backports-tempfile
 chardet==5.2.0            # via reportlab
