@@ -10,7 +10,7 @@ lxml==5.4.0               # via pikepdf, svglib, z3c-rml
 packaging==25.0           # via pikepdf
 pay-by-square==0.2.0      # via -r requirements.in
 pikepdf==9.7.0            # via z3c-rml
-pillow==11.2.1            # via pikepdf, reportlab
+pillow==12.3.0            # via pikepdf, reportlab, svglib
 pycairo==1.28.0           # via rlpycairo
 pygments==2.19.1          # via z3c-rml
 qrcode==8.2               # via reportlab-qr-code-generator
