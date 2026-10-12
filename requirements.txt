@@ -1,34 +1,23 @@
 asgiref==3.12.1           # via django
-backports-tempfile==1.0   # via z3c-rml
-backports-weakref==1.0.post1  # via backports-tempfile
-chardet==5.2.0            # via reportlab
-cssselect2==0.8.0         # via svglib
-deprecated==1.2.18        # via pikepdf
-django==4.2.21 ; python_version < "3.10"            # via -r requirements.in
-freetype-py==2.5.1        # via rlpycairo
-lxml==5.4.0               # via pikepdf, svglib, z3c-rml
-packaging==25.0           # via pikepdf
+charset-normalizer==3.5.1  # via reportlab
+cssselect2==0.10.1        # via svglib
+django==5.2.17 ; python_version < "3.12"            # via -r requirements.in
+lxml==6.1.3               # via pikepdf, svglib, z3c-rml
+packaging==26.3           # via pikepdf
 pay-by-square==0.2.0      # via -r requirements.in
-pikepdf==9.7.0            # via z3c-rml
+pikepdf==10.13.0.post1    # via z3c-rml
 pillow==12.3.0            # via pikepdf, reportlab, svglib
-pycairo==1.28.0           # via rlpycairo
-pygments==2.19.1          # via z3c-rml
+pygments==2.21.0          # via z3c-rml
 qrcode==8.2               # via reportlab-qr-code-generator
-reportlab==4.4.1          # via svglib, z3c-rml
-reportlab-qr-code-generator==1.8.0  # via -r requirements.in
-rlpycairo==0.3.0          # via z3c-rml
+reportlab==5.0.1          # via reportlab-qr-code-generator, svglib, z3c-rml
+reportlab-qr-code-generator==1.9.0  # via -r requirements.in
 six==1.17.0               # via reportlab-qr-code-generator
-sqlparse==0.5.3           # via django
-svglib==1.5.1             # via z3c-rml
-tinycss2==1.4.0           # via cssselect2, svglib
-typing-extensions==4.13.2  # via asgiref
-webencodings==0.5.1       # via cssselect2, tinycss2
-wrapt==1.17.2             # via deprecated
-z3c-rml==5.0              # via -r requirements.in
-zope-event==5.0           # via zope-schema
-zope-interface==7.2       # via z3c-rml, zope-schema
-zope-schema==7.0.1        # via z3c-rml
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
-django==5.2.1 ; python_version >= "3.10"             # via -r requirements.in
+sqlparse==0.6.0           # via django
+svglib==2.2.0             # via z3c-rml
+tinycss2==1.5.1           # via cssselect2, svglib
+webencodings==0.6.1       # via cssselect2, tinycss2
+z3c-rml==5.2              # via -r requirements.in
+zope-event==6.2           # via zope-schema
+zope-interface==8.6       # via z3c-rml, zope-schema
+zope-schema==8.1          # via z3c-rml
+django==6.1.1 ; python_version >= "3.12"             # via -r requirements.in
