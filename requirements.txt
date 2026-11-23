@@ -1,5 +1,5 @@
 asgiref==3.13.0           # via django
-charset-normalizer==3.5.1  # via reportlab
+charset-normalizer==3.5.3  # via reportlab
 cssselect2==0.10.1        # via svglib
 django==5.2.17 ; python_version < "3.12"            # via -r requirements.in
 lxml==6.1.3               # via pikepdf, svglib, z3c-rml
